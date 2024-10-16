@@ -1,6 +1,7 @@
 package com.lalochen.springbootmall.service.impl;
 
 import com.lalochen.springbootmall.dao.ProductDao;
+import com.lalochen.springbootmall.dto.ProductRequest;
 import com.lalochen.springbootmall.model.Product;
 import com.lalochen.springbootmall.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,5 +16,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductById(Integer productId) {
         return productDao.getProductById(productId);
+    }
+
+    @Override
+    public Integer createProduct(ProductRequest productRequest) {
+        return productDao.createProduct(productRequest);
     }
 }
