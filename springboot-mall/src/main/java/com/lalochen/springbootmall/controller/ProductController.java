@@ -22,12 +22,19 @@ public class ProductController {
     // 商品查詢功能
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getProducts(
+            // 查詢條件
             @RequestParam(required = false) ProductCategory category,
-            @RequestParam(required = false) String search
+            @RequestParam(required = false) String search,
+
+            // 排序
+            @RequestParam(defaultValue = "created_date") String orderBy,
+            @RequestParam(defaultValue = "desc") String sort
     ) {
         ProductQueryParams productQueryParams = new ProductQueryParams();
         productQueryParams.setCategory(category); // 將前端傳的 category 值 傳到 productQueryParams 中
         productQueryParams.setSearch(search); // 將前端傳的 search 值 傳到 productQueryParams 中
+        productQueryParams.setOrderBy(orderBy);
+        productQueryParams.setSort(sort);
 
 //        List<Product> productList = productService.getProducts(category, search);
         List<Product> productList = productService.getProducts(productQueryParams);
