@@ -1,5 +1,6 @@
 package com.lalochen.springbootmall.service.impl;
 
+import com.lalochen.springbootmall.constant.ProductCategory;
 import com.lalochen.springbootmall.dao.ProductDao;
 import com.lalochen.springbootmall.dto.ProductRequest;
 import com.lalochen.springbootmall.model.Product;
@@ -16,8 +17,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao productDao;
 
     @Override
-    public List<Product> getProducts() {
-        return productDao.getProducts();
+    public List<Product> getProducts(ProductCategory category, String search) {
+        return productDao.getProducts(category, search);
     }
 
     @Override

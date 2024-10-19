@@ -1,5 +1,6 @@
 package com.lalochen.springbootmall.controller;
 
+import com.lalochen.springbootmall.constant.ProductCategory;
 import com.lalochen.springbootmall.dto.ProductRequest;
 import com.lalochen.springbootmall.model.Product;
 import com.lalochen.springbootmall.service.ProductService;
@@ -17,9 +18,14 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    // 商品查詢功能
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts() {
-        List<Product> productList = productService.getProducts();
+    public ResponseEntity<List<Product>> getProducts(
+            @RequestParam(required = false) ProductCategory category,
+            @RequestParam(required = false) String search
+    ) {
+
+        List<Product> productList = productService.getProducts(category, search);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
