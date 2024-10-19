@@ -1,6 +1,7 @@
 package com.lalochen.springbootmall.controller;
 
 import com.lalochen.springbootmall.constant.ProductCategory;
+import com.lalochen.springbootmall.dao.ProductQueryParams;
 import com.lalochen.springbootmall.dto.ProductRequest;
 import com.lalochen.springbootmall.model.Product;
 import com.lalochen.springbootmall.service.ProductService;
@@ -24,8 +25,12 @@ public class ProductController {
             @RequestParam(required = false) ProductCategory category,
             @RequestParam(required = false) String search
     ) {
+        ProductQueryParams productQueryParams = new ProductQueryParams();
+        productQueryParams.setCategory(category); // 將前端傳的 category 值 傳到 productQueryParams 中
+        productQueryParams.setSearch(search); // 將前端傳的 search 值 傳到 productQueryParams 中
 
-        List<Product> productList = productService.getProducts(category, search);
+//        List<Product> productList = productService.getProducts(category, search);
+        List<Product> productList = productService.getProducts(productQueryParams);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }

@@ -1,6 +1,6 @@
 package com.lalochen.springbootmall.service;
 
-import com.lalochen.springbootmall.constant.ProductCategory;
+import com.lalochen.springbootmall.dao.ProductQueryParams;
 import com.lalochen.springbootmall.dto.ProductRequest;
 import com.lalochen.springbootmall.model.Product;
 
@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ProductService {
 
-    List<Product> getProducts(ProductCategory category, String search);
+    List<Product> getProducts(ProductQueryParams productQueryParams);
 
     Product getProductById(Integer productId);
 
