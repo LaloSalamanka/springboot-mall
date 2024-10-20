@@ -5,6 +5,7 @@ import com.lalochen.springbootmall.dao.ProductQueryParams;
 import com.lalochen.springbootmall.dto.ProductRequest;
 import com.lalochen.springbootmall.model.Product;
 import com.lalochen.springbootmall.service.ProductService;
+import com.lalochen.springbootmall.util.Page;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -25,7 +26,7 @@ public class ProductController {
 
     // 商品查詢功能
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(
+    public ResponseEntity<Page<Product>> getProducts(
             // 查詢條件 Filtering
             @RequestParam(required = false) ProductCategory category,
             @RequestParam(required = false) String search,
@@ -47,9 +48,21 @@ public class ProductController {
         productQueryParams.setOffset(offset);
 
 //        List<Product> productList = productService.getProducts(category, search);
+
+        // 取得 product list
         List<Product> productList = productService.getProducts(productQueryParams);
 
-        return ResponseEntity.status(HttpStatus.OK).body(productList);
+        // 取得 product 總數
+        Integer total = productService.countProduct(productQueryParams);
+
+        // 分頁
+        Page<Product> page = new Page<>();
+        page.setLimit(limit);
+        page.setOffset(offset);
+        page.setTotal(total);
+        page.setResults(productList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(page);
     }
 
     @GetMapping("/products/{productId}")
