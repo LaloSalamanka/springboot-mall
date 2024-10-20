@@ -47,6 +47,11 @@ public class ProductDaoImpl implements ProductDao {
         // 不需要檢查是否為 null，因為在 controller 已經有給預設值了
         sql = sql  + " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort();
 
+        sql = sql + " LIMIT :limit OFFSET :offset ";
+
+        map.put("limit", productQueryParams.getLimit());
+        map.put("offset", productQueryParams.getOffset());
+
         List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
 
         return productList;
