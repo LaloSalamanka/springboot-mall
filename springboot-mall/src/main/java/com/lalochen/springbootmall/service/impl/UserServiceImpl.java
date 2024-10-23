@@ -1,6 +1,7 @@
 package com.lalochen.springbootmall.service.impl;
 
 import com.lalochen.springbootmall.dao.UserDao;
+import com.lalochen.springbootmall.dto.UserLoginRequest;
 import com.lalochen.springbootmall.dto.UserRegisterRequest;
 import com.lalochen.springbootmall.model.User;
 import com.lalochen.springbootmall.service.UserService;
@@ -39,5 +40,21 @@ public class UserServiceImpl implements UserService {
         return userDao.createUser(userRegisterRequest);
     }
 
+    @Override
+    public User login(UserLoginRequest userLoginRequest) {
+        User user = userDao.getUserByEmail(userLoginRequest.getEmail());
 
+        if (user == null){
+            log.warn("該 email {} 尚未註冊", userLoginRequest.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        if (user.getPassword().equals(userLoginRequest.getPassword())){
+            return user;
+        } else {
+            log.warn("email {} 的密碼不正確", userLoginRequest.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+    }
 }
