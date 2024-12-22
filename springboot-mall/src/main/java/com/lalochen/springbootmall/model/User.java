@@ -14,6 +14,10 @@ public class User {
     private Date createdDate;
     private Date lastModifiedDate;
 
+    private String firstName;
+
+    private String lastName;
+
     public Integer getUserId() {
         return userId;
     }
@@ -52,5 +56,21 @@ public class User {
 
     public void setLastModifiedDate(Date lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

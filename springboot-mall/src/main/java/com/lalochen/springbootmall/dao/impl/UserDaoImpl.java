@@ -26,7 +26,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserById(Integer userId) {
-        String sql = "select user_id, email, password, created_date, last_modified_date " +
+        String sql = "select user_id, email, password, created_date, last_modified_date, first_name, last_name " +
                 "from user where user_id = :userId";
 
         Map<String, Object> map = new HashMap<>();
@@ -43,7 +43,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserByEmail(String email) {
-        String sql = "select user_id, email, password, created_date, last_modified_date " +
+        String sql = "select user_id, email, password, created_date, last_modified_date, first_name, last_name " +
                 "from user where email = :email";
 
         Map<String, Object> map = new HashMap<>();
@@ -60,8 +60,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Integer createUser(UserRegisterRequest userRegisterRequest) {
-        String sql = "INSERT INTO user(email, password, created_date, last_modified_date)" +
-        "VALUES (:email, :password, :createdDate, :lastModifiedDate)";
+        String sql = "INSERT INTO user(email, password, created_date, last_modified_date, first_name, last_name)" +
+        "VALUES (:email, :password, :createdDate, :lastModifiedDate, :firstName, :lastName)";
 
         // 將前端傳的 email、密碼、創建時間、修改時間都放入 map 中
         Map<String, Object> map = new HashMap<>();
@@ -71,6 +71,9 @@ public class UserDaoImpl implements UserDao {
         Date now = new Date();
         map.put("createdDate", now);
         map.put("lastModifiedDate", now);
+
+        map.put("firstName", userRegisterRequest.getFirstName());
+        map.put("lastName", userRegisterRequest.getLastName());
 
         // 使用 keyHolder 接住 MySql auto increment 的 userId
         KeyHolder keyHolder = new GeneratedKeyHolder();

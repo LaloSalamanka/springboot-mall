@@ -1,18 +1,22 @@
 package com.lalochen.springbootmall.controller;
 
+import com.lalochen.springbootmall.dto.LoginResponse;
 import com.lalochen.springbootmall.dto.UserLoginRequest;
 import com.lalochen.springbootmall.dto.UserRegisterRequest;
 import com.lalochen.springbootmall.model.User;
 import com.lalochen.springbootmall.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000/"})
 public class UserController {
 
     @Autowired
@@ -28,9 +32,15 @@ public class UserController {
     }
 
     @PostMapping("/users/login")
-    public ResponseEntity<User> login(@RequestBody @Valid UserLoginRequest userLoginRequest) {
+    public ResponseEntity<LoginResponse> login(HttpServletRequest request, @RequestBody @Valid UserLoginRequest userLoginRequest) {
         User user = userService.login(userLoginRequest);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+
+        // 包裝登入狀態和使用者資訊
+        LoginResponse response = new LoginResponse(true, user);
+        System.out.println(response);
+
+        // 返回自訂的 DTO
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }

@@ -9,9 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.server.ResponseStatusException;
+
 
 @Component
 public class UserServiceImpl implements UserService {
@@ -21,6 +23,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
+    // 使用 BCrypt 加密
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     @Override
     public User getUserById(Integer userId) {
@@ -34,12 +38,15 @@ public class UserServiceImpl implements UserService {
 
         if (user != null){
             log.warn("該 email {} 已經被註冊", userRegisterRequest.getEmail());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already in use");
         }
 
         // 使用 MD5 生成密碼的雜湊值
-        String hashedPassword = DigestUtils.md5DigestAsHex(userRegisterRequest.getPassword().getBytes());
-        userRegisterRequest.setPassword(hashedPassword);
+//        String hashedPassword = DigestUtils.md5DigestAsHex(userRegisterRequest.getPassword().getBytes());
+
+        // 使用 BCrypt 加密
+        String bcryptPassword = encoder.encode(userRegisterRequest.getPassword());
+        userRegisterRequest.setPassword(bcryptPassword);
 
         // 創建帳號
         return userDao.createUser(userRegisterRequest);
@@ -55,11 +62,12 @@ public class UserServiceImpl implements UserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
-        // 使用 MD5 生成密碼的雜湊值
-        String hashedPassword = DigestUtils.md5DigestAsHex(userLoginRequest.getPassword().getBytes());
+        // 使用 BCrypt 加密
+        String bcryptPassword = encoder.encode(userLoginRequest.getPassword());
 
         // 比較密碼
-        if (user.getPassword().equals(hashedPassword)){
+        // encoder.matches(userLoginRequest.getPassword(), user.getPassword())
+        if (encoder.matches(userLoginRequest.getPassword(), user.getPassword())){
             return user;
         } else {
             log.warn("email {} 的密碼不正確", userLoginRequest.getEmail());

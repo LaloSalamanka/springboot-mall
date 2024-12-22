@@ -5,6 +5,7 @@ import com.lalochen.springbootmall.dao.ProductDao;
 import com.lalochen.springbootmall.dao.UserDao;
 import com.lalochen.springbootmall.dto.BuyItem;
 import com.lalochen.springbootmall.dto.CreateOrderRequest;
+import com.lalochen.springbootmall.dto.OrderQueryParams;
 import com.lalochen.springbootmall.model.Order;
 import com.lalochen.springbootmall.model.OrderItem;
 import com.lalochen.springbootmall.model.Product;
@@ -34,6 +35,25 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private UserDao userDao;
+
+    @Override
+    public Integer countOrder(OrderQueryParams orderQueryParams) {
+        return orderDao.countOrder(orderQueryParams);
+    }
+
+    @Override
+    public List<Order> getOrders(OrderQueryParams orderQueryParams) {
+        List<Order> orderList = orderDao.getOrders(orderQueryParams);
+
+        for (Order order : orderList){
+            List<OrderItem> orderItemList = orderDao.getOrderItemsByOrderId(order.getOrderId());
+
+            order.setOrderItemList(orderItemList);
+        }
+
+
+        return orderList;
+    }
 
     @Override
     public Order getOrderById(Integer orderId) {
