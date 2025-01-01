@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000/"})
 public class OrderController {
 
     @Autowired
@@ -49,10 +50,10 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(page);
     }
 
-    @PostMapping("/users/{userId}/orders") // 在 users 底下的某特定 user 創建訂單
+    @PostMapping("/users/{userId}/orders") // CreateOrderRequest 是前端會傳過來的 body 資訊
     public ResponseEntity<?> createOrder(@PathVariable Integer userId,
                                          @RequestBody @Valid CreateOrderRequest createOrderRequest) {
-        Integer orderId =  orderService.createOrder(userId, createOrderRequest);
+        Integer orderId = orderService.createOrder(userId, createOrderRequest);
 
         Order order = orderService.getOrderById(orderId);
 

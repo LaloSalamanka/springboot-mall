@@ -38,8 +38,13 @@ public class ProductController {
             @RequestParam(defaultValue = "desc") String sort,
 
             // 分頁 Pagination
-            @RequestParam(defaultValue = "6") @Max(1000) @Min(0) Integer limit,
-            @RequestParam(defaultValue = "0") @Min(0) Integer offset
+            /*
+                例:
+                    http://localhost:8080/products?limit=10&offset=0 取 1-10 的商品
+                    http://localhost:8080/products?limit=10&offset=10 取 11-20 的商品
+            */
+            @RequestParam(defaultValue = "10") @Max(1000) @Min(0) Integer limit,
+            @RequestParam(defaultValue = "0") @Min(0) Integer offset // 跳過幾筆數據 預設 0 代表不跳過任何一筆數據
     ) {
         ProductQueryParams productQueryParams = new ProductQueryParams();
         productQueryParams.setCategory(category); // 將前端傳的 category 值 傳到 productQueryParams 中
