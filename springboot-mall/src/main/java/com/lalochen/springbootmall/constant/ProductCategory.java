@@ -1,5 +1,5 @@
 package com.lalochen.springbootmall.constant;
 
 public enum ProductCategory {
-    FOOD, CAR, E_BOOK, CLOTHES
+    T_SHIRT, PANTS, JACKET
 }
