@@ -5,6 +5,7 @@ import com.lalochen.springbootmall.dto.OrderQueryParams;
 import com.lalochen.springbootmall.model.Order;
 import com.lalochen.springbootmall.service.OrderService;
 import com.lalochen.springbootmall.util.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -16,7 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000/"})
+@Tag(name = "Order")
+//@CrossOrigin(origins = {"http://localhost:3000/"})
 public class OrderController {
 
     @Autowired

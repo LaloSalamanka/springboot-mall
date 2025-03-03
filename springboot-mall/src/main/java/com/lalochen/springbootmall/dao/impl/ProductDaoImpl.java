@@ -75,7 +75,7 @@ public class ProductDaoImpl implements ProductDao {
         List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
 
         if (!productList.isEmpty()) {
-            return productList.getFirst();
+            return productList.get(0);
         }else{
             return null;
         }

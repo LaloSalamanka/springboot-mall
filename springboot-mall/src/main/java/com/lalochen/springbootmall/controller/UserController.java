@@ -5,6 +5,8 @@ import com.lalochen.springbootmall.dto.UserLoginRequest;
 import com.lalochen.springbootmall.dto.UserRegisterRequest;
 import com.lalochen.springbootmall.model.User;
 import com.lalochen.springbootmall.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000/"})
+//@CrossOrigin(origins = {"http://localhost:3000/"})
+@Tag(name = "User")
 public class UserController {
 
     @Autowired

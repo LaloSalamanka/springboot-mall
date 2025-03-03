@@ -6,6 +6,7 @@ import com.lalochen.springbootmall.dto.ProductRequest;
 import com.lalochen.springbootmall.model.Product;
 import com.lalochen.springbootmall.service.ProductService;
 import com.lalochen.springbootmall.util.Page;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -20,7 +21,8 @@ import java.util.Map;
 
 @Validated
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000/"})
+@Tag(name = "Product")
+//@CrossOrigin(origins = {"http://localhost:3000/"})
 public class ProductController {
 
     @Autowired
